@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Benutzer Details')"></head>
+<body>
+<div th:replace="fragments/layout :: navbar('users')"></div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Success message -->
+            <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                <span th:text="${successMessage}">Success message</span>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Benutzer Details</h3>
+                    <div>
+                        <a th:href="@{/users/{id}/edit(id=${user.id})}" class="btn btn-primary btn-sm">Bearbeiten</a>
+                        <a th:if="${isAdmin}" th:href="@{/users/{id}/delete(id=${user.id})}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?');">Löschen</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">ID:</div>
+                        <div class="col-md-9" th:text="${user.id}">ID</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">Name:</div>
+                        <div class="col-md-9" th:text="${user.name}">Name</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">E-Mail:</div>
+                        <div class="col-md-9" th:text="${user.email}">Email</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">Rolle:</div>
+                        <div class="col-md-9">
+                            <span th:if="${user.role == 'ADMIN'}" class="badge bg-danger">Administrator</span>
+                            <span th:if="${user.role == 'USER'}" class="badge bg-primary">Benutzer</span>
+
+                            <!-- Role change form (admin only) -->
+                            <form th:if="${isAdmin}" th:action="@{/{id}/role(id=${user.id})}" method="post" class="mt-2">
+                                <div class="input-group input-group-sm">
+                                    <select class="form-select form-select-sm" name="role">
+                                        <option value="USER" th:selected="${user.role == 'USER'}">Benutzer</option>
+                                        <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">Administrator</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="submit">Ändern</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3 fw-bold">Erstellt am:</div>
+                        <div class="col-md-9" th:text="${#temporals.format(user.createdAt, 'dd.MM.yyyy HH:mm')}">Erstelldatum</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a th:href="@{/users}" class="btn btn-secondary">Zurück zur Benutzerliste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

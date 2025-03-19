@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/layout :: head('Eintrag Details')"></head>
+<body>
+<div th:replace="fragments/layout :: navbar('entries')"></div>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Eintrag Details</h1>
+        <div>
+            <a th:href="@{/entries}" class="btn btn-secondary">Zurück zur Liste</a>
+        </div>
+    </div>
+
+    <div class="alert alert-danger" th:if="${entry == null}">
+        Eintrag nicht gefunden.
+    </div>
+
+    <div class="card" th:if="${entry != null}">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <strong>Autor: </strong>
+                        <span th:text="${entry.author.name}">Autor</span>
+                    </div>
+                    <div class="ms-3" th:if="${entry.topic != null}">
+                        <strong>Thema:</strong> <span class="badge bg-secondary" th:text="${entry.topic.type}">Topic type</span>
+                    </div>
+                </div>
+                <div>
+                    <span th:text="${#temporals.format(entry.createdAt, 'dd.MM.yyyy HH:mm')}">Datum</span>
+                    <span th:if="${entry.updatedAt != null}" class="text-muted ms-2">
+                        (Bearbeitet: <span th:text="${#temporals.format(entry.updatedAt, 'dd.MM.yyyy HH:mm')}">Update</span>)
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <pre class="card-text" style="white-space: pre-wrap; font-family: inherit;"
+                 th:text="${entry.content}">Inhalt</pre>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-end">
+                <a th:if="${entry != null && (canModify || #authentication.name == entry.author.name || #authorization.expression('hasRole(''ADMIN'')'))}"
+                   th:href="@{/entries/{id}/delete(id=${entry.id})}" class="btn btn-danger me-2"
+                   onclick="return confirm('Sind Sie sicher, dass Sie diesen Eintrag löschen möchten?')">Löschen</a>
+
+                <a th:if="${entry != null && (canModify || #authentication.name == entry.author.name || #authorization.expression('hasRole(''ADMIN'')'))}"
+                   th:href="@{/entries/{id}/edit(id=${entry.id})}" class="btn btn-warning">Bearbeiten</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

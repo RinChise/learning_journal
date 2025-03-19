@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Einträge')"></head>
+<body>
+<div th:replace="fragments/layout :: navbar('entries')"></div>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-start flex-wrap mb-4">
+        <h1 class="mb-3 mb-md-0">Journal Einträge</h1>
+
+        <div class="d-flex flex-column flex-md-row">
+            <form th:action="@{/entries}" method="get" class="d-flex flex-wrap me-md-2 mb-2 mb-md-0">
+                <div class="input-group mb-2 mb-md-0">
+                    <select name="authorId" class="form-select" style="min-width: 120px;">
+                        <option value="">Alle Autoren</option>
+                        <option th:each="user : ${users}"
+                                th:value="${user.id}"
+                                th:text="${user.name}"
+                                th:selected="${user.id == selectedAuthorId}">
+                            Username
+                        </option>
+                    </select>
+                    <select name="topicId" class="form-select" style="min-width: 120px;">
+                        <option value="">Alle Themen</option>
+                        <option th:each="topic : ${topics}"
+                                th:value="${topic.id}"
+                                th:text="${topic.type}"
+                                th:selected="${topic.id == selectedTopicId}">
+                            Topic type
+                        </option>
+                    </select>
+                    <button class="btn btn-outline-secondary" type="submit">Filter</button>
+                    <a th:href="@{/entries}" class="btn btn-outline-secondary">Reset</a>
+
+                </div>
+                <div class="w-100 d-md-none"></div> <!-- Force new line on mobile only -->
+            </form>
+            <a th:href="@{/entries/new}" class="btn btn-primary align-self-start">Neuer Eintrag</a>
+        </div>
+    </div>
+
+    <div class="alert alert-info" th:if="${#lists.isEmpty(entries)}">
+        Keine Einträge gefunden. Erstellen Sie einen neuen Eintrag, um zu beginnen.
+    </div>
+
+    <div class="card mb-4" th:each="entry : ${entries}">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <strong>Autor: </strong>
+                        <span th:text="${entry.author.name}">Autor</span>
+                    </div>
+                    <div class="ms-3" th:if="${entry.topic != null}">
+                        <strong>Thema:</strong> <span class="badge bg-secondary" th:text="${entry.topic.type}">Topic type</span>
+                    </div>
+                </div>
+                <div>
+                    <span th:text="${#temporals.format(entry.createdAt, 'dd.MM.yyyy HH:mm')}">Datum</span>
+                    <span th:if="${entry.updatedAt != null}" class="text-muted ms-2">
+                        (Bearbeitet: <span th:text="${#temporals.format(entry.updatedAt, 'dd.MM.yyyy HH:mm')}">Update</span>)
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text" style="white-space: pre-line;" th:text="${#strings.abbreviate(entry.content, 200)}">Inhalt</p>
+        </div>
+        <div class="card-footer">
+            <a th:href="@{/entries/{id}(id=${entry.id})}" class="btn btn-info">Details</a>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

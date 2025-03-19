@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head(${entry.id == null ? 'Neuer Eintrag' : 'Eintrag bearbeiten'})"></head>
+<body>
+<div th:replace="fragments/layout :: navbar('entries')"></div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 th:text="${entry.id == null ? 'Neuer Eintrag' : 'Eintrag bearbeiten'}">Eintrag</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Success/Error Messages -->
+                    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                        <span th:text="${successMessage}">Success message</span>
+                    </div>
+                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                        <span th:text="${errorMessage}">Error message</span>
+                    </div>
+
+                    <!-- For existing entries, use the ID in the URL -->
+                    <form th:if="${entry.id != null}" th:action="@{/entries/{id}(id=${entry.id})}" method="post">
+                        <div class="mb-3">
+                            <label for="edit-content" class="form-label">Inhalt</label>
+                            <textarea class="form-control" id="edit-content" name="content" rows="10" required th:text="${entry.content}"></textarea>
+                        </div>
+
+                        <!-- Topic selection dropdown -->
+                        <div class="mb-3">
+                            <label for="edit-topic" class="form-label">Thema</label>
+                            <select class="form-select" id="edit-topic" name="topicId">
+                                <option value="">-- Kein Thema --</option>
+                                <option th:each="topic : ${topics}"
+                                        th:value="${topic.id}"
+                                        th:text="${topic.type}"
+                                        th:selected="${entry.topic != null && entry.topic.id == topic.id}">
+                                    Topic name
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="@{/entries/{id}(id=${entry.id})}" class="btn btn-secondary me-md-2">Abbrechen</a>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
+                        </div>
+                    </form>
+
+                    <!-- For new entries, just post to /entries -->
+                    <form th:if="${entry.id == null}" th:action="@{/entries}" method="post">
+                        <div class="mb-3">
+                            <label for="new-content" class="form-label">Inhalt</label>
+                            <textarea class="form-control" id="new-content" name="content" rows="10" required></textarea>
+                        </div>
+
+                        <!-- Topic selection dropdown -->
+                        <div class="mb-3">
+                            <label for="new-topic" class="form-label">Thema</label>
+                            <select class="form-select" id="new-topic" name="topicId">
+                                <option value="">-- Kein Thema --</option>
+                                <option th:each="topic : ${topics}"
+                                        th:value="${topic.id}"
+                                        th:text="${topic.type}">
+                                    Topic name
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="@{/entries}" class="btn btn-secondary me-md-2">Abbrechen</a>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

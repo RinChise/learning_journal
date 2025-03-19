@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Benutzer bearbeiten')"></head>
+<body>
+<div th:replace="fragments/layout :: navbar('users')"></div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 th:text="${user.id != null} ? 'Benutzer bearbeiten' : 'Neuer Benutzer'">Benutzer bearbeiten</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Error message -->
+                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                        <span th:text="${errorMessage}">Error message</span>
+                    </div>
+
+                    <!-- Success message -->
+                    <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                        <span th:text="${successMessage}">Success message</span>
+                    </div>
+
+                    <!-- URL parameter error -->
+                    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                        Ein Fehler ist aufgetreten. Bitte überprüfen Sie Ihre Eingaben.
+                    </div>
+
+                    <form th:action="${user.id != null} ? @{/users/{id}(id=${user.id})} : @{/users}" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" th:value="${user.name}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-Mail</label>
+                            <input type="email" class="form-control" id="email" name="email" th:value="${user.email}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Passwort</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   th:placeholder="${user.id != null} ? 'Leer lassen, um Passwort nicht zu ändern' : 'Passwort eingeben'">
+                            <div class="form-text" th:if="${user.id != null}">Leer lassen, um das bestehende Passwort beizubehalten.</div>
+                        </div>
+
+                        <!-- Only show role field for admins when creating a new user -->
+                        <div class="mb-3" th:if="${isAdmin && user.id == null}">
+                            <label for="role" class="form-label">Rolle</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="USER" th:selected="${user.role == 'USER'}">Benutzer</option>
+                                <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">Administrator</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a th:href="${user.id != null} ? @{/users/{id}(id=${user.id})} : @{/users}" class="btn btn-secondary me-md-2">Abbrechen</a>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

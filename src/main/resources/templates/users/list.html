@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/layout :: head('Benutzer')"></head>
+<body>
+<div th:replace="fragments/layout :: navbar('users')"></div>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Benutzer</h1>
+        <!-- Removed new user button as requested -->
+    </div>
+
+    <div class="alert alert-info" th:if="${#lists.isEmpty(users)}">
+        Keine Benutzer gefunden.
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped" th:if="${not #lists.isEmpty(users)}">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Rolle</th>
+                <th>Erstellt am</th>
+                <th>Aktionen</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}">Name</td>
+                <td th:text="${user.email}">Email</td>
+                <td>
+                    <span th:if="${user.role == 'ADMIN'}" class="badge bg-danger">Administrator</span>
+                    <span th:if="${user.role == 'USER'}" class="badge bg-primary">Benutzer</span>
+                </td>
+                <td th:text="${#temporals.format(user.createdAt, 'dd.MM.yyyy HH:mm')}">Erstelldatum</td>
+                <td>
+                    <!-- Show Ansicht button only for the current user or if the user is an admin -->
+                    <a th:if="${isAdmin || user.name == #authentication.name}"
+                       th:href="@{/users/{id}(id=${user.id})}"
+                       class="btn btn-sm btn-info">Ansicht</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

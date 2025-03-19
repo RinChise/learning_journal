@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Dashboard')"></head>
+<body>
+<div th:replace="fragments/layout :: navbar('home')"></div>
+
+<div class="container mt-5">
+    <h1>Lernjournal Dashboard</h1>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Aktive Benutzer</h5>
+                </div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(recentUsers)}" class="alert alert-info">
+                        Keine Benutzer gefunden.
+                    </div>
+                    <table th:if="${not #lists.isEmpty(recentUsers)}" class="table">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Aktionen</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${recentUsers}">
+                            <td th:text="${user.name}">Name</td>
+                            <td th:text="${user.email}">Email</td>
+                            <td>
+                                <a th:href="@{/users/{id}(id=${user.id})}" class="btn btn-sm btn-info">Details</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a th:href="@{/users}" class="btn btn-primary">Alle Benutzer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>
