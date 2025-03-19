@@ -10,6 +10,8 @@ Learning Journal ist eine Plattform, auf der Benutzer ihre Erkenntnisse und Lern
 - Login für bestehende Benutzer
 - Sicherheit: Alle Passwörter werden gehasht gespeichert
 
+![preview3](https://github.com/user-attachments/assets/9889c139-8fb2-48e5-bb8a-d73e0ddbac18)
+
 ### Beiträge
 - Anzeigen aller vorhandenen Beiträge
 - Erstellen neuer Beiträge
@@ -17,10 +19,14 @@ Learning Journal ist eine Plattform, auf der Benutzer ihre Erkenntnisse und Lern
 - Kategorisierung durch Topics und Tags (z.B. "Code")
 - Administratoren können alle Beiträge bearbeiten
 
+![preview1](https://github.com/user-attachments/assets/71d49a34-6e3f-4af2-a092-ffc7954c65cd)
+
 ### Benutzerverwaltung
 - Übersicht aller registrierten Benutzer
 - Bearbeiten der eigenen Benutzerdaten
 - Erweiterte Rechte für Administratoren
+
+![preview2](https://github.com/user-attachments/assets/2725583a-11a3-473d-9acf-ac18a1fd7687)
 
 ## Technische Details
 - Projekt wurde mit IntelliJ IDEA entwickelt
