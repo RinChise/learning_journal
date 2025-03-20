@@ -1,6 +1,6 @@
 package com.academy.learning_journal.controller;
 
-import com.academy.learning_journal.model.entity.User;
+import com.academy.learning_journal.entity.User;
 import com.academy.learning_journal.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

@@ -1,8 +1,8 @@
 package com.academy.learning_journal.service;
 
-import com.academy.learning_journal.model.entity.JournalEntry;
-import com.academy.learning_journal.model.entity.Topic;
-import com.academy.learning_journal.model.entity.User;
+import com.academy.learning_journal.entity.JournalEntry;
+import com.academy.learning_journal.entity.Topic;
+import com.academy.learning_journal.entity.User;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;

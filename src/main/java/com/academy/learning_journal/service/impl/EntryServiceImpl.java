@@ -1,8 +1,8 @@
 package com.academy.learning_journal.service.impl;
 
-import com.academy.learning_journal.model.entity.JournalEntry;
-import com.academy.learning_journal.model.entity.Topic;
-import com.academy.learning_journal.model.entity.User;
+import com.academy.learning_journal.entity.JournalEntry;
+import com.academy.learning_journal.entity.Topic;
+import com.academy.learning_journal.entity.User;
 import com.academy.learning_journal.repository.EntryRepository;
 import com.academy.learning_journal.repository.TopicRepository;
 import com.academy.learning_journal.repository.UserRepository;

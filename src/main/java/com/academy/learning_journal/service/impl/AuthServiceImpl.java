@@ -1,6 +1,6 @@
 package com.academy.learning_journal.service.impl;
 
-import com.academy.learning_journal.model.entity.User;
+import com.academy.learning_journal.entity.User;
 import com.academy.learning_journal.repository.UserRepository;
 import com.academy.learning_journal.service.AuthService;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,6 @@
 package com.academy.learning_journal.service;
 
-import com.academy.learning_journal.model.entity.User;
+import com.academy.learning_journal.entity.User;
 import com.academy.learning_journal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

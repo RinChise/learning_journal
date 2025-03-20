@@ -1,6 +1,6 @@
 package com.academy.learning_journal.repository;
 
-import com.academy.learning_journal.model.entity.JournalEntry;
+import com.academy.learning_journal.entity.JournalEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

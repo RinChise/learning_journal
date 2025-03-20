@@ -1,4 +1,4 @@
-package com.academy.learning_journal.model.entity;
+package com.academy.learning_journal.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
